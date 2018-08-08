@@ -17,6 +17,7 @@ class PageController extends Controller
         $data = [
             'countries' => $this->countries()
         ];
+        // dd($data);
         return view('pages.home.index', $data);
     }
 
