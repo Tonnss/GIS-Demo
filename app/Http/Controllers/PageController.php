@@ -3,29 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Countries;
 use File;
 
 class PageController extends Controller
 {
-    public function __construct()
+    public function __construct(Countries $countries)
     {
-
+        $this->countries = $countries;
     }
 
     public function index()
     {
-        $data = [
-            'countries' => $this->countries()
-        ];
-        // dd($data);
-        return view('pages.home.index', $data);
+        $countries = $this->countries->all();
+        return view('pages.home.index', compact('countries'));
     }
 
-    private function countries()
+    public function getCountry(Request $request)
     {
-        $countries_path = storage_path('json/countries.json');
-        if ( File::exists($countries_path) )
-            return json_decode(File::get($countries_path), true);
-        return [];
+        $country = $this->countries->where('name', $request['country'])->first();
+        if ( $country ) 
+        {
+            return response()->json($country);
+        }
     }
+
 }

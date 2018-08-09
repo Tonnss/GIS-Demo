@@ -11,4 +11,5 @@
 |
 */
 
+Route::get('get-country', 'PageController@getCountry')->name('country');
 Route::get('/', 'PageController@index')->name('index');
